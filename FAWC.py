@@ -32,7 +32,7 @@ def run(dirs):
 	if badconf != 0:
 		print("[*]Some files are not well configured or doesn't exists, configure/create them them with FAWC configure")
 
-if __name__="__main__":
+if __name__=="__main__":
 	if sys.argv[1] = "configure":
 		print("[*]Configuring CRYFrameWork files...")
 		CRYDir = sys.argv[2]
