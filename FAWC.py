@@ -1,6 +1,6 @@
 
 import sys
-
+import subprocess
 
 def run(dirs):
 	badconf = 0
@@ -23,8 +23,14 @@ def run(dirs):
 			f.close()
 		except:
 			pass
+		try:
+			f = open(x+"/CRYfw.ver", "r")
+			f.close()
+		except:
+			print("[!]File CRYfw.ver doesn't exists!")
+			badconf+=1
 	if badconf != 0:
-		print("[*]Some files are not well configured, configure them with FAWC configure")
+		print("[*]Some files are not well configured or doesn't exists, configure/create them them with FAWC configure")
 
 if __name__="__main__":
 	if sys.argv[1] = "configure":
@@ -42,6 +48,19 @@ if __name__="__main__":
 			f.close()
 		except:
 			raise IOError("Could not open file in "+ CRYDir + "/AppData")
+		try:  
+			subprocess.check_output("mkdir " + CRYDir + "/temp")
+			subprocess.check_output("curl http://raw.github.com/CRY0gen/CRYFrameWork/CRYData/CRYfw.ver -o "+ CRYDir+"/temp/CRYfw.ver.o", shell=True)
+			f = open(CRYDir+"/temp/CRYfw.ver.o", "r")
+			tmp = f.read()
+			tmp = tmp.decode("utf-8")
+			f.close()
+			f = open(CRYDir+"temp/CRYfw.ver", "w")
+			f.write(tmp)
+			f.close()
+			print("[°]CRYfw.ver successfully configured...")
+		except :
+			raise ("Could not configure CRYfw.ver, is curl installed?")
 	else:
 		print("Usage: FAWC configure <path>")
 		print("Example: FAWC configure $HOME/CRYFrameWork ")
